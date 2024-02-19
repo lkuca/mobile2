@@ -13,8 +13,8 @@ namespace mobile2
     public partial class Startpage1 : ContentPage
     {
 
-        List<ContentPage> pages = new List<ContentPage>() { new Entry(), new Timepage(), new Clikker(), new Datetimepage(), new BoxViewss(), new lummememm() };
-        List<string> texs = new List<string>() { "Ava entry leht", "Ava Timer leht", "Ava clikker leht","Ava Datetimepage","Ava BoxViewss","Ava lummemmem" };
+        List<ContentPage> pages = new List<ContentPage>() { new Entry(), new Timepage(), new Clikker(), new Datetimepage(), new BoxViewss(), new lummememm(), new Framepage1() , new lumik(), new nullidjaristkud()};
+        List<string> texs = new List<string>() { "Ava entry leht", "Ava Timer leht", "Ava clikker leht","Ava Datetimepage","Ava BoxViewss","Ava lummemmem", "ava frame","Lumik", "nullid ja ristikud" };
         StackLayout st;
         public Startpage1()
         {
@@ -29,7 +29,8 @@ namespace mobile2
                 {
                     Text = texs[i],
                     BackgroundColor=Color.Black,
-                    TabIndex= i
+                    TabIndex= i,
+                    TextColor = Color.White
                 };
                 st.Children.Add(button);
                 button.Clicked += Ava_vajav_leht;

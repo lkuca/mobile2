@@ -38,6 +38,8 @@ namespace mobile2
                 VerticalOptions = LayoutOptions.CenterAndExpand
             };
 
+
+
             StepperSlider = new Label
             {
                 Text="...",
