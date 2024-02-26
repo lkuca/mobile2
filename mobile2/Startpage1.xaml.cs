@@ -13,8 +13,8 @@ namespace mobile2
     public partial class Startpage1 : ContentPage
     {
 
-        List<ContentPage> pages = new List<ContentPage>() { new Entry(), new Timepage(), new Clikker(), new Datetimepage(), new BoxViewss(), new lummememm(), new Framepage1() , new lumik(), new nullidjaristkud()};
-        List<string> texs = new List<string>() { "Ava entry leht", "Ava Timer leht", "Ava clikker leht","Ava Datetimepage","Ava BoxViewss","Ava lummemmem", "ava frame","Lumik", "nullid ja ristikud" };
+        List<ContentPage> pages = new List<ContentPage>() { new Entry(), new Timepage(), new Clikker(), new Datetimepage(), new BoxViewss(), new lummememm(), new Framepage1() , new lumik(), new nullidjaristkud(), new webbrowser()};
+        List<string> texs = new List<string>() { "Ava entry leht", "Ava Timer leht", "Ava clikker leht","Ava Datetimepage","Ava BoxViewss","Ava lummemmem", "ava frame","Lumik", "nullid ja ristikud", "wEBBROWSER" };
         StackLayout st;
         public Startpage1()
         {
