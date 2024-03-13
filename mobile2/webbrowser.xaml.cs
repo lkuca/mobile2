@@ -17,23 +17,18 @@ namespace mobile2
         Frame frame;
         Picker picker,picker2;
         WebView webView;
-        string sri = "";
-        Button bt,bt1,History_bt;
+        
+        Button bt,bt1, favoritesButton;
         string[] lehed = new string[3] { "https://www.tthk.ee/", "https://www.youtube.com/", "https://moodle.edu.ee/" };
         string[] nimetused = new string[3] { "tthk", "YOUTUBE", "Moodle" };
         string[] lehed1 = new string[4] { "https://www.tthk.ee/", "https://www.youtube.com/", "https://moodle.edu.ee/", "https://www.w3schools.com/" };
-        List<string> history = new List<string> {};
+        List<string> favorites = new List<string>();
+        Entry searchentry;
+
+        string vali;
         public webbrowser()
         {
-            picker2 = new Picker
-            {
-                Title = "History",
-                 IsVisible = false
-            };
-            foreach (string skidish in history)
-            {
-                picker2.Items.Add(skidish);
-            }
+           
             picker = new Picker
             {
                 Title = "Veebileht"
@@ -41,6 +36,14 @@ namespace mobile2
             foreach ( string leht in nimetused)
             {
                 picker.Items.Add( leht );
+            }
+            picker2 = new Picker
+            {
+                Title = "lemmikud browse"
+            };
+            foreach (string currentUrl in favorites)
+            {
+                picker2.Items.Add(currentUrl);
             }
             webView = new WebView
             {
@@ -69,14 +72,10 @@ namespace mobile2
                 BorderColor = Color.Gray,
                 HeightRequest = 55,
                 WidthRequest = 30,
+                Text ="Tagasi"
                 
             };
-            History_bt = new Button
-            {
-                BorderColor = Color.Gray,
-                HeightRequest = 55,
-                WidthRequest = 30,
-            };
+            
 
             bt1.ImageSource = (@"pictures\back-modern-flat-icon-600nw-242284795.webp");
             SwipeGestureRecognizer swipe = new SwipeGestureRecognizer
@@ -91,54 +90,80 @@ namespace mobile2
             {
                 Children = { picker, webView }
             };
+            SearchBar searchbar = new SearchBar
+            {
+                Placeholder ="Sissestage sait",
+                HorizontalOptions = LayoutOptions.FillAndExpand
+            };
+            searchbar.TextChanged += Searchbar_TextChanged;
 
             frame.GestureRecognizers.Add( swipe );
             frame.GestureRecognizers.Add( swipe1 );
             Content= st;
             bt.Clicked += Home_page;
             bt1.Clicked += Back_button;
-            History_bt.Clicked += historyView;
+           
             swipe.Swiped += Swipe_Swiped;
             swipe1.Swiped+= Swipe_Swiped;
             //webView.GestureRecognizers.Add( swipe );
             picker.SelectedIndexChanged += Valime_leht_avamiseks;
+            picker2.SelectedIndexChanged += azoza;
+            favoritesButton = new Button
+            {
+                Text = "lemmikud"
+            };
+            favoritesButton.Clicked += FavoritesButton_Clicked;
+            
 
             Content = new StackLayout
             {
-                Children = {picker,picker2,bt,bt1,History_bt,webView,frame,}
+                Children = {searchbar,picker,picker2,bt,bt1,favoritesButton,webView, frame,}
             };
         }
 
-        private void WebView_Navigated(object sender, WebNavigatedEventArgs e)
+        private void Searchbar_TextChanged(object sender, TextChangedEventArgs e)
         {
-            if(e.Url == "https://www.w3schools.com/")
+            var searchbar = sender as SearchBar;
+            if (searchbar != null)
             {
-                history.Add("https://www.w3schools.com/");
-            }
-            if (picker.SelectedIndex == 0)
-            {
-                history.Add("https://www.tthk.ee/");
-            }
-            if (picker.SelectedIndex == 1)
-            {
-                history.Add("https://www.youtube.com/");
-            }
-            if (picker.SelectedIndex == 2)
-            {
-                history.Add("https://moodle.edu.ee/");
-            }
+                var searctext = searchbar.Text;
+                if (!string.IsNullOrWhiteSpace(searctext))
+                {
+                    var url = "https://" + searctext;
+                    webView.Source = new UrlWebViewSource { Url = url };
 
+                    var index = Array.IndexOf(lehed, url);
+                    if (index != -1)
+                    {
+                        picker.SelectedIndex = index;
+                    }
+                }
+
+            }
         }
 
-        private void historyView(object sender, EventArgs e)
+            private void WebView_Navigated(object sender, WebNavigatedEventArgs e)
         {
+            vali = e.Url;
+        }
 
-            webView.Source = new UrlWebViewSource { Url = history[picker2.SelectedIndex] };
+        private void azoza(object sender, EventArgs e)
+        {
+            webView.Source = new UrlWebViewSource { Url = lehed1[picker2.SelectedIndex] };
+        }
+
+        private void FavoritesButton_Clicked(object sender, EventArgs e)
+        {
+            if (!favorites.Contains(vali))
+            {
+                picker2.Items.Add(vali);
+                // Optionally, display a message or indicator that the URL is added to favorites
+            }
         }
 
         private void Back_button(object sender, EventArgs e)
         {
-            
+            webView.GoBack();
         }
 
         private void Home_page(object sender, EventArgs e)
@@ -178,5 +203,6 @@ namespace mobile2
             webView.Source = new UrlWebViewSource { Url = lehed[picker.SelectedIndex] };
                         
         }
+
     }
 }
