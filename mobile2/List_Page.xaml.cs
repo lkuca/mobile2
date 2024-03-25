@@ -36,21 +36,26 @@ namespace mobile2
             //};
             telefons = new ObservableCollection<Telefon>
             {
-                new Telefon {Nimetus="Samsung Galaxy S21 Ultra", Tootja="Samsung", Hind=1349, Pilt="s21.jpg"},
-                new Telefon {Nimetus="Xiaomi Mi11 Lite 5G", Tootja="Xiaomi", Hind=399, Pilt ="Xiaomi.jpg"},
-                new Telefon {Nimetus="Xiaomi Mi11 Lite 5G NE", Tootja="Xiaomi", Hind=560,Pilt ="Xiaomi.jpg"},
-                new Telefon {Nimetus="Iphone 13", Tootja="Apple", Hind=1400, Pilt = "iphone13.jpg"}
+                new Telefon {Nimetus="Saksamaa", Pilt="s21.jpg"},
+                new Telefon {Nimetus="Itaalia", Pilt ="Xiaomi.jpg"},
+                new Telefon {Nimetus="Prantsusmaa", Pilt ="Xiaomi.jpg"},
+                new Telefon {Nimetus="Holland", Pilt = "iphone13.jpg"}
             };
-            list = new ListView() 
-            { 
+            list = new ListView()
+            {
+                SeparatorColor = Color.Orange,
+                Header = "Minu oma kolektsion:",
+                Footer = DateTime.Now.ToString("T"),
+
+
                 HasUnevenRows= true,
                 ItemsSource = telefons,
                 ItemTemplate = new DataTemplate(()=>
                 {
                     ImageCell imageCell = new ImageCell { TextColor = Color.Red, DetailColor = Color.Green };
                     imageCell.SetBinding(ImageCell.TextProperty, "Nimetus");
-                    Binding companyBinding = new Binding { Path = "Tootja", StringFormat = "Tore telefon firmalt {0}" };
-                    imageCell.SetBinding(ImageCell.DetailProperty, companyBinding);
+                    //Binding companyBinding = new Binding { Path = "Tootja", StringFormat = "Tore telefon firmalt {0}" };
+                    //imageCell.SetBinding(ImageCell.DetailProperty, companyBinding);
                     imageCell.SetBinding(ImageCell.ImageSourceProperty, "Pilt");
                     return imageCell;
                     //Label nimetus = new Label { FontSize = 20 };
@@ -73,27 +78,43 @@ namespace mobile2
                     //};
                 })
             };
-            lisa = new Button { Text = "Lisa felefon" };
-            kustuta = new Button { Text = "Kustuta telefn" };
+            lisa = new Button { Text = "Lisa riik" };
+            kustuta = new Button { Text = "Kustuta riik" };
+            lisa.Clicked += Lisa_Clicked;
+            kustuta.Clicked += Kustuta_Clicked;
             lbl_list = new Label()
             {
-                Text = "Telefonide loetelu",
+                Text = "riikide loetelu",
                 HorizontalOptions = LayoutOptions.Center,
                 FontSize = Device.GetNamedSize(NamedSize.Large, typeof(Label))
             };
             
             list.ItemTapped += List_Itemselected;
-            this.Content = new StackLayout { Children = {lbl_list, list } };
+            this.Content = new StackLayout { Children = {lbl_list, list ,lisa, kustuta} };
 
         }
 
         private async void List_Itemselected(object sender, ItemTappedEventArgs e)
         {
            Telefon selectedPhone = e.Item as Telefon;
-           if( selectedPhone !=null)
+           if( selectedPhone != null)
             {
                 await DisplayAlert("teha model", $"{selectedPhone.Tootja} - {selectedPhone.Nimetus}", "OK");
             }
         }
+        private void Kustuta_Clicked(object sender, EventArgs e)
+        {
+            Telefon phone = list.SelectedItem as Telefon;
+            if ( phone != null )
+            {
+                telefons.Remove(phone);
+                list.SelectedItem = null;
+            }
+        }
+        private void Lisa_Clicked(object sender, EventArgs e)
+        {
+            telefons.Add(new Telefon { Nimetus = "Telefon", Tootja = "Tootja", Hind = 1 });
+        }
+
     }
 }
