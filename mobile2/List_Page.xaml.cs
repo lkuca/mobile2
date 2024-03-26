@@ -36,10 +36,10 @@ namespace mobile2
             //};
             telefons = new ObservableCollection<Telefon>
             {
-                new Telefon {Nimetus="Saksamaa", Pilt="s21.jpg"},
-                new Telefon {Nimetus="Itaalia", Pilt ="Xiaomi.jpg"},
-                new Telefon {Nimetus="Prantsusmaa", Pilt ="Xiaomi.jpg"},
-                new Telefon {Nimetus="Holland", Pilt = "iphone13.jpg"}
+                new Telefon {Nimetus="Saksamaa", Pilt="germany.jpg",Tootja ="Euroopa",Hind = 82300000},
+                new Telefon {Nimetus="Itaalia", Pilt ="itaalia.jpg",Tootja ="Euroopa",Hind = 59110000},
+                new Telefon {Nimetus="Prantsusmaa", Pilt ="pransusmaa.png",Tootja ="Euroopa",Hind = 6775000},
+                new Telefon {Nimetus="Holland", Pilt = "Flag-of-The-Netherlands3.png",Tootja ="Euroopa",Hind = 17530000}
             };
             list = new ListView()
             {
@@ -99,7 +99,7 @@ namespace mobile2
            Telefon selectedPhone = e.Item as Telefon;
            if( selectedPhone != null)
             {
-                await DisplayAlert("teha model", $"{selectedPhone.Tootja} - {selectedPhone.Nimetus}", "OK");
+                await DisplayAlert("Informatsioon", $"{selectedPhone.Tootja} - {selectedPhone.Nimetus} - {selectedPhone.Hind}", "OK");
             }
         }
         private void Kustuta_Clicked(object sender, EventArgs e)
